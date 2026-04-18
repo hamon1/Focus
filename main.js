@@ -2,11 +2,16 @@ const { app, BrowserWindow } = require('electron');
 
 function createWindow() {
     const win = new BrowserWindow({
-        width: 1200,
+        width: 1000,
         height: 800,
+
+        transparent: true,
+        frame: false,
+        backgroundColor: '#00000000',
+
         webPreferences: {
         nodeIntegration: false, 
-        contextIsolation: true
+        contextIsolation: true,
         }
     });
     win.loadFile('index.html');

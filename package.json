@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/hamon1/Focus#readme",
   "devDependencies": {
-    "electron": "^41.2.1"
+    "electron": "^41.2.1",
+    "electronmon": "^2.0.4"
   }
 }
