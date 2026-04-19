@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="../styles/daygoal.css">
+    </head>
+    <body>
+        <div class="drag-bar"></div>
+
+        <div class="app">
+            <div class="timer-area">
+                <div id="start-screen">
+                    <input id="task" placeholder="지금 무엇에 집중하실 건가요?" />
+                    <button id="startBtn">Start</button>
+                </div>
+        
+                <canvas id="clock" width="300" height="300"></canvas>
+        
+                <div id="controls">
+                    <button id="pauseBtn">Pause</button>
+                    <button id="stopBtn">Stop</button>
+                </div>
+            </div>
+            <div class="side-panel">
+    
+            </div>
+        </div>
+
+        <script type="module" src="app.js"></script>
+    </body>
+</html>

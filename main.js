@@ -1,20 +1,34 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
+const path = require('path');
+const store = require('./db/store');
+
+let mainWindow;
 
 function createWindow() {
-    const win = new BrowserWindow({
-        width: 1000,
-        height: 800,
-
+    mainWindow = new BrowserWindow({
+        width: 400,
+        height: 600,
+        minWidth: 400,
+        minHeight: 600,
+        alwaysOnTop: true,
+        webPreferences: {
+        preload: path.join(__dirname, 'preload.js'),
+        },
         transparent: true,
         frame: false,
-        backgroundColor: '#00000000',
-
-        webPreferences: {
-        nodeIntegration: false, 
-        contextIsolation: true,
-        }
     });
-    win.loadFile('index.html');
+
+    mainWindow.loadFile('./renderer/components/Daygoal.html');
 }
 
 app.whenReady().then(createWindow);
+
+// 데이터 저장
+ipcMain.handle('save-session', (event, data) => {
+    store.save(data);
+});
+
+// 데이터 조회
+ipcMain.handle('get-sessions', () => {
+    return store.getAll();
+});
