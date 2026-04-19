@@ -58,11 +58,11 @@ function drawArc(progress, layer) {
 
     ctx.beginPath();
     ctx.arc(
-        150,
-        150,
-        100 - layer * 10,
-        -Math.PI / 2,
-        -Math.PI / 2 + progress * Math.PI * 2
+        150,    // x (center)
+        150,    // y (center)
+        100, // r
+        -Math.PI / 2, // start angle
+        -Math.PI / 2 + progress * Math.PI * 2 // finish angle
     );
 
     ctx.strokeStyle = colors[layer % colors.length];
