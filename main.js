@@ -1,6 +1,8 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
-const store = require('./db/store');
+const Store = require('electron-store').default;
+
+const store = new Store();
 
 let mainWindow;
 
@@ -12,7 +14,7 @@ function createWindow() {
         minHeight: 600,
         alwaysOnTop: true,
         webPreferences: {
-        preload: path.join(__dirname, 'preload.js'),
+            preload: path.join(__dirname, 'preload.js'),
         },
         transparent: true,
         frame: false,
@@ -23,12 +25,16 @@ function createWindow() {
 
 app.whenReady().then(createWindow);
 
-// 데이터 저장
 ipcMain.handle('save-session', (event, data) => {
-    store.save(data);
+    const sessions = store.get('sessions', []);
+    sessions.push(session);
+    store.set('sessions', sessions);
 });
 
-// 데이터 조회
+ipcMain.handle('get-goals', () => {
+    return store.get('big_goals', []);
+});
+
 ipcMain.handle('get-sessions', () => {
     return store.getAll();
 });

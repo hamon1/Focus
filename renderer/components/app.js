@@ -6,6 +6,8 @@ const ctx = canvas.getContext('2d');
 const timer = new Timer();
 
 const tasks = [];
+
+let currentSession;
 let currentTask = null;
 let currentGoal;
 
@@ -13,39 +15,67 @@ let task = "";
 let animationId;
 
 document.getElementById('startBtn').onclick = () => {
-    task = document.getElementById('task').value;
+    if (!currentTask || !currentGoal) return;
+
+    if (timer.running) return;
     timer.start();
-    animate();
+
+    currentSession = {
+        id: Date.now(),
+        goal_id: currentGoal.id,
+        task_id: currentTask.id,
+        start_time: new Date().toISOString(),
+        pause_count: 0
+    };
+
+    if (!animationId) animate();
 };
 
 document.getElementById('pauseBtn').onclick = () => {
-    if (timer.running) timer.pause();
-    else timer.resume();
+    if (!currentSession) return;
+
+    if (timer.running) {
+        currentSession.pause_count += 1;
+        timer.pause();
+    } else {
+        timer.resume();
+    }
 };
 
 document.getElementById('stopBtn').onclick = async () => {
+    if (!currentSession) return;
+    
     const time = timer.stop();
+
+    currentSession.end_time = new Date().toISOString();
+    currentSession.focus_time = Math.floor(time / 60000);
+
+    saveSession(currentSession);
+    updateGoal(currentGoal.id, time);
 
     if (!currentTask) return;
 
-    await window.api.saveSession({
-        task: currentTask.text,
-        duration: time,
-        date: new Date()
-    });
-
     cancelAnimationFrame(animationId);
+    animationId = null;
+
+    currentSession = null;
 };
 
 document.getElementById('addTaskBtn').onclick = () => {
     const input = document.getElementById('taskInput');
     const text = input.value.trim();
+    console.log("add task btn");
 
-    if (!text) return;
+    currentGoal = "default";
 
-    const task = {
+    if (!text || !currentGoal) return;
+
+    console.log("add task btn");
+
+    task = {
         id: Date.now(),
         text,
+        // goal_id: currentGoal.id
     };
 
     tasks.push(task);
@@ -110,9 +140,28 @@ function renderTasks() {
 
 function selectTask(task) {
     currentTask = task;
+    currentGoal = findGoal(task.goal_id);
 
     document.getElementById('current-task').textContent = task.text;
+}
 
-    timer.start();
-    animate();
+async function saveSession(session) {
+    await window.api.saveSession(session);
+}
+
+async function updateGoal(goalId, focusTime) {
+
+    const goals = await window.api.getGoals();
+
+    const goal = goals.find(g => g.id === goalId);
+    if (!goal) return;
+
+    goal.total_focus_time += Math.floor(focusTime / 60000);
+
+    store.set('big_goals', goals);
+}
+
+async function findGoal(goalId) {
+    const goals = await window.api.getGoals();
+    return goals.find(g => g.id === goalId);
 }
