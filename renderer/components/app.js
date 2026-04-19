@@ -9,15 +9,27 @@ const tasks = [];
 
 let currentSession;
 let currentTask = null;
-let currentGoal;
 
 let task = "";
 let animationId;
 
+let goals = [];
+let currentGoal = null;
+
+async function init() {
+    goals = await window.api.getGoals();
+    currentGoal = goals[0];
+}
+
+init();
+
 document.getElementById('startBtn').onclick = () => {
-    if (!currentTask || !currentGoal) return;
+    if (!currentTask) return;
+
+    if (!currentGoal) currentGoal = goals[0];
 
     if (timer.running) return;
+
     timer.start();
 
     currentSession = {
@@ -35,47 +47,56 @@ document.getElementById('pauseBtn').onclick = () => {
     if (!currentSession) return;
 
     if (timer.running) {
+        console.log("pause");
         currentSession.pause_count += 1;
         timer.pause();
     } else {
+        console.log("resume");
         timer.resume();
     }
 };
 
 document.getElementById('stopBtn').onclick = async () => {
-    if (!currentSession) return;
-    
     const time = timer.stop();
+    document.getElementById('current-task').textContent = null;
+    removeTask(currentTask.id);
 
-    currentSession.end_time = new Date().toISOString();
-    currentSession.focus_time = Math.floor(time / 60000);
+    if (!currentSession) return;
+    else {
+        currentSession.end_time = new Date().toISOString();
+        currentSession.focus_time = Math.floor(time / 60000);
+    
+        saveSession(currentSession);
+        updateGoal(currentGoal.id, time);
+    }
+    
+    // // 타이머 내부 상태 초기화
+    // timer.elapsed = 0;
+    // timer.running = false;
 
-    saveSession(currentSession);
-    updateGoal(currentGoal.id, time);
-
-    if (!currentTask) return;
+    // // canvas 초기화
+    // ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     cancelAnimationFrame(animationId);
     animationId = null;
-
+    
+    currentTask = null;
     currentSession = null;
+
+
+    console.log("stop");
 };
 
 document.getElementById('addTaskBtn').onclick = () => {
     const input = document.getElementById('taskInput');
     const text = input.value.trim();
-    console.log("add task btn");
-
-    currentGoal = "default";
 
     if (!text || !currentGoal) return;
-
-    console.log("add task btn");
 
     task = {
         id: Date.now(),
         text,
-        // goal_id: currentGoal.id
+        goal_id: currentGoal.id
     };
 
     tasks.push(task);
@@ -140,7 +161,8 @@ function renderTasks() {
 
 function selectTask(task) {
     currentTask = task;
-    currentGoal = findGoal(task.goal_id);
+
+    currentGoal = goals.find(g => g.id === task.goal_id) || goals[0];
 
     document.getElementById('current-task').textContent = task.text;
 }
@@ -158,10 +180,18 @@ async function updateGoal(goalId, focusTime) {
 
     goal.total_focus_time += Math.floor(focusTime / 60000);
 
-    store.set('big_goals', goals);
+    // store.set('big_goals', goals);
 }
 
 async function findGoal(goalId) {
     const goals = await window.api.getGoals();
     return goals.find(g => g.id === goalId);
+}
+
+function removeTask(taskId) {
+    const index = tasks.findIndex(t => t.id === taskId);
+    if (index === -1) return;
+
+    tasks.splice(index, 1);
+    renderTasks();
 }

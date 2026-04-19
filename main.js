@@ -9,9 +9,10 @@ let mainWindow;
 function createWindow() {
     mainWindow = new BrowserWindow({
         width: 400,
-        height: 600,
+        height: 500,
         minWidth: 400,
-        minHeight: 600,
+        minHeight: 500,
+        maxWidth: 700,
         alwaysOnTop: true,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
@@ -23,9 +24,27 @@ function createWindow() {
     mainWindow.loadFile('./renderer/components/Daygoal.html');
 }
 
-app.whenReady().then(createWindow);
+function ensureDefaultGoal() {
+    let goals = store.get('big_goals');
 
-ipcMain.handle('save-session', (event, data) => {
+    if (!goals || goals.length === 0) {
+        const defaultGoal = {
+        id: 'default_goal',
+        title: 'Default Goal',
+        total_focus_time: 0,
+        created_at: new Date().toISOString()
+        };
+
+        store.set('big_goals', [defaultGoal]);
+    }
+    }
+
+    app.whenReady().then(() => {
+        ensureDefaultGoal();
+        createWindow();
+    });
+
+ipcMain.handle('save-session', (event, session) => {
     const sessions = store.get('sessions', []);
     sessions.push(session);
     store.set('sessions', sessions);
