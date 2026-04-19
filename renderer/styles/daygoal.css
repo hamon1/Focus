@@ -36,6 +36,21 @@ canvas {
     transition: 0.3s;
 }
 
+.history-section {
+    margin-top: 20px;
+    color: white;
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.history-item {
+    padding: 4px 8px;
+    margin-bottom: 4px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 6px;
+    font-size: 12px;
+}
+
 @media (min-width: 700px) {
     .timer-area {
         width: 400px;

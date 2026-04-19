@@ -58,6 +58,11 @@ document.getElementById('pauseBtn').onclick = () => {
 
 document.getElementById('stopBtn').onclick = async () => {
     const time = timer.stop();
+    
+    
+    const duration = timer.getTime();
+    addHistory(currentTask.text, duration);
+
     document.getElementById('current-task').textContent = null;
     removeTask(currentTask.id);
 
@@ -70,12 +75,6 @@ document.getElementById('stopBtn').onclick = async () => {
         updateGoal(currentGoal.id, time);
     }
     
-    // // 타이머 내부 상태 초기화
-    // timer.elapsed = 0;
-    // timer.running = false;
-
-    // // canvas 초기화
-    // ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     cancelAnimationFrame(animationId);
     animationId = null;
@@ -194,4 +193,17 @@ function removeTask(taskId) {
 
     tasks.splice(index, 1);
     renderTasks();
+}
+
+function addHistory(goalName, duration) {
+    const list = document.getElementById('history-list');
+
+    const item = document.createElement('div');
+    item.className = 'history-item';
+
+    const time = new Date().toLocaleTimeString();
+
+    item.textContent = `${goalName} (${time})`;
+
+    list.prepend(item); // 최신 위로
 }
