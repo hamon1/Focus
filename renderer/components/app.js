@@ -5,12 +5,14 @@ const ctx = canvas.getContext('2d');
 
 const timer = new Timer();
 
+const tasks = [];
+let currentTask = null;
+let currentGoal;
+
 let task = "";
 let animationId;
 
 document.getElementById('startBtn').onclick = () => {
-    console.log("START CLICKED");
-
     task = document.getElementById('task').value;
     timer.start();
     animate();
@@ -24,14 +26,33 @@ document.getElementById('pauseBtn').onclick = () => {
 document.getElementById('stopBtn').onclick = async () => {
     const time = timer.stop();
 
+    if (!currentTask) return;
+
     await window.api.saveSession({
-        task,
+        task: currentTask.text,
         duration: time,
         date: new Date()
     });
 
     cancelAnimationFrame(animationId);
 };
+
+document.getElementById('addTaskBtn').onclick = () => {
+    const input = document.getElementById('taskInput');
+    const text = input.value.trim();
+
+    if (!text) return;
+
+    const task = {
+        id: Date.now(),
+        text,
+    };
+
+    tasks.push(task);
+    input.value = "";
+
+    renderTasks();
+}
 
 function animate() {
     draw();
@@ -68,4 +89,30 @@ function drawArc(progress, layer) {
     ctx.strokeStyle = colors[layer % colors.length];
     ctx.lineWidth = 20;
     ctx.stroke();
+}
+
+function renderTasks() {
+    const list = document.getElementById('taskList');
+    list.innerHTML = "";
+
+    tasks.forEach(task => {
+        const li = document.createElement('li');
+    
+        li.textContent = task.text;
+    
+        li.onclick = () => {
+            selectTask(task);
+        };
+    
+        list.appendChild(li);
+    });
+}
+
+function selectTask(task) {
+    currentTask = task;
+
+    document.getElementById('current-task').textContent = task.text;
+
+    timer.start();
+    animate();
 }

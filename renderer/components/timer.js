@@ -6,6 +6,7 @@ export class Timer {
     }
 
     start() {
+        if (this.running) return;
         this.startTime = Date.now();
         this.running = true;
     }
