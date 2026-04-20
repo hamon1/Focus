@@ -6,14 +6,23 @@ const store = new Store();
 
 let mainWindow;
 
+const MODES = {
+    MINI: { width: 200, height: 300 },
+    TIMER: { width: 300, height: 500 },
+    FULL: { width: 700, height: 500 }
+};
+
 function createWindow() {
     mainWindow = new BrowserWindow({
         width: 300,
         height: 500,
-        minWidth: 300,
-        minHeight: 500,
+        // minWidth: 300,
+        // minHeight: 500,
         maxWidth: 700,
         maxHeight: 500,
+
+        resizable: false,
+
         alwaysOnTop: true,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
@@ -43,6 +52,7 @@ function ensureDefaultGoal() {
     app.whenReady().then(() => {
         ensureDefaultGoal();
         createWindow();
+
     });
 
 ipcMain.handle('save-session', (event, session) => {
@@ -58,3 +68,27 @@ ipcMain.handle('get-goals', () => {
 ipcMain.handle('get-sessions', () => {
     return store.getAll();
 });
+
+ipcMain.handle('set-mode', (event, mode) => {
+    const win = BrowserWindow.getFocusedWindow();
+    const size = MODES[mode];
+
+    if (!win || !size) return;
+
+    win.setSize(size.width, size.height);
+});
+
+function createPopUpWindow() {
+    const memeWin = new BrowserWindow({
+        width: 200,
+        height: 200,
+        transparent: true,
+        frame: false,
+        alwaysOnTop: true,
+        resizable: false,
+        hasShadow: false,
+        focusable: false,
+        skipTaskbar: true
+    });
+    memeWin.loadFile('./renderer/components/Popup.html');
+}

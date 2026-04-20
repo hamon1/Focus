@@ -207,3 +207,12 @@ function addHistory(goalName, duration) {
 
     list.prepend(item); // 최신 위로
 }
+
+function setMode(mode) {
+    window.api.setMode(mode);
+
+    document.body.classList.remove('mini', 'timer', 'full');
+    document.body.classList.add(mode.toLowerCase());
+}
+
+window.setMode = setMode;

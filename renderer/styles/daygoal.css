@@ -14,20 +14,32 @@ body {
     background: rgba(0,0,0,0.3);
     color: white;
     text-align: center;
+    align-items: center;
 }
 
 canvas {
     margin-top: 20px;
+    margin-bottom: 20px;
+    /* background-color: blueviolet; */
+    /* position: absolute; */
+}
+
+.timer-area {
+    width: 100%;
+    align-items: center;
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    
 }
 
 .app {
     display: flex;
     width: 100%;
     height: 100%;
-}
 
-.timer-area {
-    width: 100%;
+    transform: scale(1);
 }
 
 .side-panel {
@@ -51,6 +63,28 @@ canvas {
     font-size: 12px;
 }
 
+body.mini {
+    /* font-size: 12px; */
+}
+body.mini .history-section {
+    display: none;
+}
+body.mini #current-task {
+    display: none;
+}
+body.mini canvas {
+    transform: scale(0.6) translateY(-70px);
+
+}
+
+body.timer {
+    /* font-size: 20px; */
+}
+
+body.full {
+    /* font-size: 16px; */
+}
+
 @media (min-width: 700px) {
     .timer-area {
         width: 400px;
@@ -64,4 +98,30 @@ canvas {
         width: 300px;
         background: rgba(0, 0, 0, 0.2);
     }
+}
+
+
+/* gif popup */
+
+.meme-popup {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+
+    width: 120px;
+    height: 120px;
+
+    z-index: 9999;
+    pointer-events: none;
+
+    animation: popUp 0.6s ease, fadeOut 0.6s ease 2s forwards;
+}
+
+@keyframes popUp {
+    0% { transform: scale(0.5) translateY(50px); opacity: 0; }
+    100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+@keyframes fadeOut {
+    to { opacity: 0; transform: translateY(20px); }
 }
