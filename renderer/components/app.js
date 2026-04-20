@@ -32,6 +32,8 @@ document.getElementById('startBtn').onclick = () => {
 
     timer.start();
 
+    window.api.showMeme();
+
     currentSession = {
         id: Date.now(),
         goal_id: currentGoal.id,

@@ -5,5 +5,7 @@ contextBridge.exposeInMainWorld('api', {
     saveSession: (data) => ipcRenderer.invoke('save-session', data),
     getSessions: () => ipcRenderer.invoke('get-sessions'),
 
-    setMode: (mode) => ipcRenderer.invoke('set-mode', mode)
+    setMode: (mode) => ipcRenderer.invoke('set-mode', mode),
+
+    showMeme: () => ipcRenderer.send('show-meme')
 });

@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, screen } = require('electron');
 const path = require('path');
 const Store = require('electron-store').default;
 
@@ -79,16 +79,35 @@ ipcMain.handle('set-mode', (event, mode) => {
 });
 
 function createPopUpWindow() {
+
     const memeWin = new BrowserWindow({
         width: 200,
         height: 200,
         transparent: true,
         frame: false,
         alwaysOnTop: true,
+
         resizable: false,
         hasShadow: false,
         focusable: false,
         skipTaskbar: true
     });
     memeWin.loadFile('./renderer/components/Popup.html');
+
+    const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+
+    const x = Math.floor(Math.random() * (width - 200));
+    const y = Math.floor(Math.random() * (height - 200));
+
+    memeWin.setPosition(x, y);
+
+    setTimeout(() => {
+        if (!memeWin.isDestroyed()) {
+            memeWin.close();
+        }
+    }, 2000);
 }
+
+ipcMain.on('show-meme', () => {
+    createPopUpWindow();
+});
