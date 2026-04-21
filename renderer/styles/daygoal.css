@@ -1,3 +1,4 @@
+/* drag-bar */
 .drag-bar {
     -webkit-app-region: drag;
     width: 100%;
@@ -19,7 +20,7 @@
     transition: background-color 0.2s ease, width 0.2s ease;
 }
 
-
+/* drag-bar-----/ */
 
 button, input {
     -webkit-app-region: no-drag;
@@ -56,7 +57,7 @@ canvas {
     padding: 10px;
 }
 
-/* 버튼 style */
+/* 버튼 style - window mode */
 
 .mode-btn {
     background: none;
@@ -109,7 +110,64 @@ canvas {
     border: 1px solid #555;
 }
 
-/* 버튼 style---------// */
+/* 버튼 style (window mode) ---------// */
+/* 버튼 style (start/pause/stop) */
+
+#controls {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: -20px;
+}
+
+.control-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; 
+    border: none;
+    background-color: rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.control-btn:hover {
+    transform: scale(1.1);
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.icon-play {
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 15px solid rgba(150, 150, 200, 0.7);
+    margin-left: 4px; 
+}
+
+.icon-pause {
+    width: 14px;
+    height: 16px;
+    border-left: 5px solid rgba(200, 200, 200, 0.7); 
+    border-right: 5px solid rgba(200, 200, 200, 0.7);
+    box-sizing: border-box;
+}
+
+.icon-stop {
+    width: 16px;
+    height: 16px;
+    background-color: rgba(200, 150, 150, 0.7);
+    border-radius: 2px;
+}
+
+.control-btn:active {
+    transform: scale(0.95);
+}
+
+/* 버튼 style (start / pause / stop) ---/ */
+
 
 .app {
     display: flex;
