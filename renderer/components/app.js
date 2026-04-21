@@ -76,6 +76,8 @@ document.getElementById('stopBtn').onclick = async () => {
         currentSession.end_time = new Date().toISOString();
         currentSession.focus_time = Math.floor(time / 60000);
     
+
+
         saveSession(currentSession);
         updateGoal(currentGoal.id, time);
     }
@@ -130,9 +132,12 @@ function draw() {
 
     ctx.clearRect(0, 0, 300, 300);
 
+    const baseColor = timer.running ? 'rgba(256, 256, 256, 0.3)' : 'rgba(256, 256, 256, 0.1)';
+    const textColor = timer.running ? 'rgba(256, 256, 256, 0.4)' : 'rgba(256, 256, 256, 0.2)'; // 글자도 흐리게
+
     ctx.beginPath();
     ctx.arc(150, 150, 100, 0, Math.PI * 2);
-    ctx.strokeStyle = 'rgba(256, 256, 256, 0.3)';
+    ctx.strokeStyle = baseColor;
     ctx.lineWidth = 30;
     ctx.stroke();
 
@@ -143,11 +148,15 @@ function draw() {
         drawArc(i === layers ? progress : 1, i);
     }
 
-    drawTimeText(ms);
+    drawTimeText(ms, textColor);
 }
 
 function drawArc(progress, layer) {
-    const colors = ['#FF6B6B', '#4ECDC4', '#FFE66D', '#A29BFE'];
+    const activeColors = ['#FF6B6B', '#4ECDC4', '#FFE66D', '#A29BFE'];
+    // 멈췄을 때는 채도가 낮은 회색 배열 사용
+    const pausedColors = ['#bdc3c7', '#95a5a6', '#7f8c8d', '#dcdde1'];
+
+    const colors = timer.running ? activeColors : pausedColors;
 
     ctx.beginPath();
     ctx.arc(
@@ -162,7 +171,7 @@ function drawArc(progress, layer) {
     ctx.lineWidth = 30;
     ctx.stroke();
 }
-function drawTimeText(ms) {
+function drawTimeText(ms, color) {
     const totalSeconds = Math.floor(ms / 1000);
     const h = Math.floor(totalSeconds / 3600);
     const m = Math.floor((totalSeconds % 3600) / 60);
@@ -174,7 +183,7 @@ function drawTimeText(ms) {
     const displayS = String(s).padStart(2, '0');
     const timeString = `${displayH}${displayM}:${displayS}`;
 
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.8)'; // text color
+    ctx.fillStyle = color; // text color
     ctx.font = 'bold 40px sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
