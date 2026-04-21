@@ -1,7 +1,10 @@
 import { Timer } from './timer.js';
 
+
+// pomodor 타이머 canvas
 const canvas = document.getElementById('clock');
 const ctx = canvas.getContext('2d');
+
 
 const timer = new Timer();
 
@@ -244,3 +247,6 @@ function setMode(mode) {
 }
 
 window.setMode = setMode;
+
+
+
