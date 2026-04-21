@@ -458,6 +458,9 @@ body.mini .history-section {
 body.mini #current-task {
     display: none;
 }
+body.mini #resetBtn {
+    display: none;
+}
 body.mini canvas {
     transform: scale(0.6) translateY(-130px);
 
