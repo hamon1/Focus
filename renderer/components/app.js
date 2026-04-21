@@ -91,6 +91,16 @@ document.getElementById('stopBtn').onclick = async () => {
     console.log("stop");
 };
 
+document.getElementById('resetBtn').onclick = () => {
+    timer.reset();
+
+    updateDisplay(timer.time);
+
+    currentTask = null;
+
+    document.getElementById('current-task').textContent = '';
+}
+
 document.getElementById('addTaskBtn').onclick = () => {
     const input = document.getElementById('taskInput');
     const text = input.value.trim();
@@ -164,7 +174,7 @@ function drawTimeText(ms) {
     const displayS = String(s).padStart(2, '0');
     const timeString = `${displayH}${displayM}:${displayS}`;
 
-    ctx.fillStyle = '#e3e3e3';
+    ctx.fillStyle = '#e3e3e3'; // text color
     ctx.font = 'bold 40px sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';

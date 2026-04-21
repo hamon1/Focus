@@ -33,4 +33,10 @@ export class Timer {
         if (!this.running) return this.elapsed;
         return this.elapsed + (Date.now() - this.startTime);
     }
+
+    reset() {
+        this.startTime = null;
+        this.elapsed = 0;
+        this.running = false;
+    }
 }
