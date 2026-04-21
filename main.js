@@ -14,7 +14,7 @@ const MODES = {
 
 function createWindow() {
     mainWindow = new BrowserWindow({
-        width: 300,
+        width: 700,
         height: 500,
         // minWidth: 300,
         // minHeight: 500,
