@@ -117,13 +117,20 @@ function draw() {
 
     ctx.clearRect(0, 0, 300, 300);
 
+    ctx.beginPath();
+    ctx.arc(150, 150, 100, 0, Math.PI * 2);
+    ctx.strokeStyle = 'rgba(256, 256, 256, 0.3)';
+    ctx.lineWidth = 30;
+    ctx.stroke();
+
     const layers = Math.floor(minutes / 60);
     const progress = (minutes % 60) / 60;
 
-    // 레이어 반복
     for (let i = 0; i <= layers; i++) {
         drawArc(i === layers ? progress : 1, i);
     }
+
+    drawTimeText(ms);
 }
 
 function drawArc(progress, layer) {
@@ -139,8 +146,27 @@ function drawArc(progress, layer) {
     );
 
     ctx.strokeStyle = colors[layer % colors.length];
-    ctx.lineWidth = 20;
+    ctx.lineWidth = 30;
     ctx.stroke();
+}
+function drawTimeText(ms) {
+    const totalSeconds = Math.floor(ms / 1000);
+    const h = Math.floor(totalSeconds / 3600);
+    const m = Math.floor((totalSeconds % 3600) / 60);
+    const s = totalSeconds % 60;
+
+    // 두 자릿수 포맷팅 (0 -> 00)
+    const displayH = h > 0 ? String(h).padStart(2, '0') + ":" : "";
+    const displayM = String(m).padStart(2, '0');
+    const displayS = String(s).padStart(2, '0');
+    const timeString = `${displayH}${displayM}:${displayS}`;
+
+    ctx.fillStyle = '#7c7c7c';
+    ctx.font = 'bold 40px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    
+    ctx.fillText(timeString, 150, 150);
 }
 
 function renderTasks() {
