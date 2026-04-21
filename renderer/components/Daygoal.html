@@ -10,10 +10,15 @@
         <div class="app">
             <div class="timer-area">
                 <div id="start-screen">
-                    <button onclick="setMode('MINI')">Mini</button>
-                    <button onclick="setMode('TIMER')">Timer</button>
-                    <button onclick="setMode('FULL')">Full</button>
-                    <!-- <input id="task" placeholder="지금 무엇에 집중하실 건가요?" /> -->
+                    <button class="mode-btn mini" onclick="setMode('MINI')" title="Mini Mode">
+                        <span class="icon"></span>
+                    </button>
+                    <button class="mode-btn timer" onclick="setMode('TIMER')" title="Timer Mode">
+                        <span class="icon"></span>
+                    </button>
+                    <button class="mode-btn full" onclick="setMode('FULL')" title="Full Mode">
+                        <span class="icon"></span>
+                    </button>
                 </div>
                 <div id="current-task"></div>
                 

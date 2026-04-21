@@ -34,6 +34,68 @@ canvas {
     
 }
 
+#start-screen {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    padding: 10px;
+}
+
+/* 버튼 style */
+
+.mode-btn {
+    background: none;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    opacity: 0.4;
+}
+
+.mode-btn:hover {
+    opacity: 1; 
+    background-color: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.3);
+}
+
+.icon {
+    display: inline-block;
+    border: 2px solid #555;
+    box-sizing: border-box;
+}
+
+.mode-btn.mini .icon {
+    width: 12px;
+    height: 8px;
+    position: relative;
+}
+
+.mode-btn.timer .icon {
+    width: 14px;
+    height: 18px;
+    position: relative;
+}
+
+.mode-btn.full .icon {
+    width: 20px;
+    height: 14px;
+    position: relative;
+}
+
+.full .icon::after {
+    content: '';
+    position: absolute;
+    top: 2px; left: 2px; right: 2px; bottom: 2px;
+    border: 1px solid #555;
+}
+
+/* 버튼 style---------// */
+
 .app {
     display: flex;
     width: 100%;
@@ -73,7 +135,7 @@ body.mini #current-task {
     display: none;
 }
 body.mini canvas {
-    transform: scale(0.6) translateY(-70px);
+    transform: scale(0.6) translateY(-130px);
 
 }
 
