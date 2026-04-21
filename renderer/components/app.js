@@ -174,7 +174,7 @@ function drawTimeText(ms) {
     const displayS = String(s).padStart(2, '0');
     const timeString = `${displayH}${displayM}:${displayS}`;
 
-    ctx.fillStyle = '#e3e3e3'; // text color
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.8)'; // text color
     ctx.font = 'bold 40px sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
