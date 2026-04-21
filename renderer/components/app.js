@@ -201,10 +201,14 @@ function renderTasks() {
 
 function selectTask(task) {
     currentTask = task;
-
     currentGoal = goals.find(g => g.id === task.goal_id) || goals[0];
+    
+    const taskDisplay = document.getElementById('current-task');
+    
+    taskDisplay.setAttribute('data-text', task.text);
+    taskDisplay.textContent = ""; 
 
-    document.getElementById('current-task').textContent = task.text;
+    updateButtonStates();
 }
 
 async function saveSession(session) {

@@ -66,6 +66,50 @@ canvas {
     padding: 10px;
 }
 
+/* current task name */
+
+#current-task {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+}
+
+#current-task::before {
+    content: attr(data-text);
+    position: absolute;
+    white-space: nowrap;
+    font-weight: bold;
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+    animation: marquee 1s linear infinite;
+}
+
+/* data-text 속성이 있을 때만 애니메이션 적용 */
+#current-task[data-text]::before {
+    content: attr(data-text);
+    animation: marquee 10s linear infinite;
+}
+
+/* 왼쪽에서 오른쪽으로 이동하는 애니메이션 */
+@keyframes marquee {
+    0% {
+        left: 100%;
+        transform: translateX(0%);
+    }
+    100% {
+        left: 0;
+        transform: translateX(-100%); 
+    }
+}
+
+/* current task name -----/ */
+
 /* 버튼 style - window mode */
 
 .mode-btn {
@@ -181,8 +225,8 @@ canvas {
 /* 버튼 style reset*/
 .floating-btn {
     position: fixed;
-    bottom: -20px;
-    left: 4px;
+    bottom: 130px;
+    /* left: 4px; */
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -349,6 +393,7 @@ canvas {
 
 #taskList li {
     padding: 4px;
+    padding-left: 12px;
     margin: 8px;
     /* margin-bottom: 8px; */
     background-color: rgba(255, 255, 255, 0.2);
