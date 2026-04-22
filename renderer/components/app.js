@@ -61,16 +61,57 @@ document.getElementById('pauseBtn').onclick = () => {
     }
 };
 
-document.getElementById('stopBtn').onclick = async () => {
+// document.getElementById('stopBtn').onclick = async () => {
+//     const time = timer.stop();
+    
+    
+//     const duration = timer.getTime();
+//     addHistory(currentTask.text, duration);
+
+//     document.getElementById('current-task').textContent = null;
+//     removeTask(currentTask.id);
+
+//     if (!currentSession) return;
+//     else {
+//         currentSession.end_time = new Date().toISOString();
+//         currentSession.focus_time = Math.floor(time / 60000);
+    
+
+
+//         saveSession(currentSession);
+//         updateGoal(currentGoal.id, time);
+//     }
+    
+
+//     cancelAnimationFrame(animationId);
+//     animationId = null;
+    
+//     currentTask = null;
+//     currentSession = null;
+
+
+//     console.log("stop");
+// };
+
+document.getElementById('resetBtn').onclick = () => {
+    // timer.reset();
+
+    // updateDisplay(timer.time);
+
+    
+    // document.getElementById('current-task').textContent = '';
+    
+    // cancelAnimationFrame(animationId);
+    
     const time = timer.stop();
     
     
     const duration = timer.getTime();
     addHistory(currentTask.text, duration);
-
-    document.getElementById('current-task').textContent = null;
+    
+    document.getElementById('current-task').textContent = '';
     removeTask(currentTask.id);
-
+    
     if (!currentSession) return;
     else {
         currentSession.end_time = new Date().toISOString();
@@ -82,25 +123,17 @@ document.getElementById('stopBtn').onclick = async () => {
         updateGoal(currentGoal.id, time);
     }
     
-
-    cancelAnimationFrame(animationId);
     animationId = null;
     
     currentTask = null;
     currentSession = null;
 
-
-    console.log("stop");
-};
-
-document.getElementById('resetBtn').onclick = () => {
     timer.reset();
+    cancelAnimationFrame(animationId);
 
-    updateDisplay(timer.time);
 
-    currentTask = null;
 
-    document.getElementById('current-task').textContent = '';
+//     console.log("stop");
 }
 
 document.getElementById('addTaskBtn').onclick = () => {
