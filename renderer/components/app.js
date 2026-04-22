@@ -109,20 +109,25 @@ document.getElementById('resetBtn').onclick = () => {
     const duration = timer.getTime();
     addHistory(currentTask.text, duration);
     
-    document.getElementById('current-task').textContent = '';
     removeTask(currentTask.id);
     
     if (!currentSession) return;
     else {
         currentSession.end_time = new Date().toISOString();
         currentSession.focus_time = Math.floor(time / 60000);
-    
-
-
+        
+        
+        
         saveSession(currentSession);
         updateGoal(currentGoal.id, time);
     }
     
+    document.getElementById('current-task').textContent = '';
+
+    const taskDisplay = document.getElementById('current-task');
+    
+    taskDisplay.removeAttribute('data-text');
+
     animationId = null;
     
     currentTask = null;
@@ -130,10 +135,6 @@ document.getElementById('resetBtn').onclick = () => {
 
     timer.reset();
     cancelAnimationFrame(animationId);
-
-
-
-//     console.log("stop");
 }
 
 document.getElementById('addTaskBtn').onclick = () => {
@@ -248,7 +249,7 @@ function selectTask(task) {
     const taskDisplay = document.getElementById('current-task');
     
     taskDisplay.setAttribute('data-text', task.text);
-    taskDisplay.textContent = ""; 
+    // taskDisplay.textContent = ""; 
 
     updateButtonStates();
 }
