@@ -54,9 +54,11 @@ document.getElementById('pauseBtn').onclick = () => {
     if (timer.running) {
         console.log("pause");
         currentSession.pause_count += 1;
+        window.api.showMeme();
         timer.pause();
     } else {
         console.log("resume");
+        window.api.showMeme();
         timer.resume();
     }
 };
