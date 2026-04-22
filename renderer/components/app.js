@@ -54,53 +54,48 @@ document.getElementById('pauseBtn').onclick = () => {
     if (timer.running) {
         console.log("pause");
         currentSession.pause_count += 1;
+        window.api.showMeme();
         timer.pause();
     } else {
         console.log("resume");
+        window.api.showMeme();
         timer.resume();
     }
 };
 
-document.getElementById('stopBtn').onclick = async () => {
+document.getElementById('resetBtn').onclick = () => {
     const time = timer.stop();
     
     
     const duration = timer.getTime();
     addHistory(currentTask.text, duration);
-
-    document.getElementById('current-task').textContent = null;
+    
     removeTask(currentTask.id);
-
+    
     if (!currentSession) return;
     else {
         currentSession.end_time = new Date().toISOString();
         currentSession.focus_time = Math.floor(time / 60000);
-    
-
-
+        
+        
+        
         saveSession(currentSession);
         updateGoal(currentGoal.id, time);
     }
     
+    document.getElementById('current-task').textContent = '';
 
-    cancelAnimationFrame(animationId);
+    const taskDisplay = document.getElementById('current-task');
+    
+    taskDisplay.removeAttribute('data-text');
+
     animationId = null;
     
     currentTask = null;
     currentSession = null;
 
-
-    console.log("stop");
-};
-
-document.getElementById('resetBtn').onclick = () => {
     timer.reset();
-
-    updateDisplay(timer.time);
-
-    currentTask = null;
-
-    document.getElementById('current-task').textContent = '';
+    cancelAnimationFrame(animationId);
 }
 
 document.getElementById('addTaskBtn').onclick = () => {
@@ -215,7 +210,7 @@ function selectTask(task) {
     const taskDisplay = document.getElementById('current-task');
     
     taskDisplay.setAttribute('data-text', task.text);
-    taskDisplay.textContent = ""; 
+    // taskDisplay.textContent = ""; 
 
     updateButtonStates();
 }
