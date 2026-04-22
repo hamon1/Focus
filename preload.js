@@ -1,0 +1,11 @@
+const { contextBridge, ipcRenderer } = require('electron');
+
+contextBridge.exposeInMainWorld('api', {
+    getGoals: () => ipcRenderer.invoke('get-goals'),
+    saveSession: (data) => ipcRenderer.invoke('save-session', data),
+    getSessions: () => ipcRenderer.invoke('get-sessions'),
+
+    setMode: (mode) => ipcRenderer.invoke('set-mode', mode),
+
+    showMeme: () => ipcRenderer.send('show-meme')
+});

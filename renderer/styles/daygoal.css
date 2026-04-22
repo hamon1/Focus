@@ -1,0 +1,518 @@
+/* drag-bar */
+.drag-bar {
+    -webkit-app-region: drag;
+    width: 100%;
+    height: 20px;
+
+    /* background: rgba(0, 0, 0, 0.05);  */
+
+    display: flex;
+    align-items:flex-start;
+    justify-content: center;
+}
+.drag-icon {
+    display: block;
+    width: 40px;
+    height: 3px;
+    border-radius: 15px;
+
+    background-color: rgba(255,255,255,0.2);
+    transition: background-color 0.2s ease, width 0.2s ease;
+}
+
+/* drag-bar-----/ */
+
+/* * {
+    font-family: 'Noto Sans KR', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: -0.02em; 
+} */
+
+button, input {
+    -webkit-app-region: no-drag;
+}
+
+body {
+    background: rgba(0,0,0,0.4);
+    color: white;
+    text-align: center;
+    align-items: center;
+
+    overflow: hidden;
+    user-select: none;
+}
+
+canvas {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    /* background-color: blueviolet; */
+    /* position: absolute; */
+}
+
+.timer-area {
+    width: 100%;
+    align-items: center;
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    
+}
+
+#start-screen {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    padding: 10px;
+}
+
+/* current task name */
+
+#current-task {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+}
+
+#current-task::before {
+    content: attr(data-text);
+    position: absolute;
+    white-space: nowrap;
+    font-weight: bold;
+    font-size: 24px;
+    color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+    animation: marquee 1s linear infinite;
+}
+
+/* data-text 속성이 있을 때만 애니메이션 적용 */
+#current-task[data-text]::before {
+    content: attr(data-text);
+    animation: marquee 10s linear infinite;
+}
+
+/* 왼쪽에서 오른쪽으로 이동하는 애니메이션 */
+@keyframes marquee {
+    0% {
+        left: 100%;
+        transform: translateX(0%);
+    }
+    100% {
+        left: 0;
+        transform: translateX(-100%); 
+    }
+}
+
+/* current task name -----/ */
+
+/* 버튼 style - window mode */
+
+.mode-btn {
+    background: none;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    opacity: 0.4;
+}
+
+.mode-btn:hover {
+    opacity: 1; 
+    background-color: rgba(0, 0, 0, 0.05);
+    border-color: rgba(0, 0, 0, 0.3);
+}
+
+.icon {
+    display: inline-block;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-sizing: border-box;
+}
+
+.mode-btn.mini .icon {
+    width: 12px;
+    height: 8px;
+    position: relative;
+}
+
+.mode-btn.timer .icon {
+    width: 14px;
+    height: 18px;
+    position: relative;
+}
+
+.mode-btn.full .icon {
+    width: 20px;
+    height: 14px;
+    position: relative;
+}
+
+.full .icon::after {
+    content: '';
+    position: absolute;
+    top: 2px; left: 2px; right: 2px; bottom: 2px;
+    border: 1px solid #555;
+}
+
+/* 버튼 style (window mode) ---------// */
+/* 버튼 style (start/pause/stop) */
+
+#controls {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: -20px;
+}
+
+.control-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; 
+    border: none;
+    background-color: rgba(0, 0, 0, 0);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.control-btn:hover {
+    transform: scale(1.1);
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.icon-play {
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 15px solid rgba(150, 150, 200, 0.7);
+    margin-left: 4px; 
+}
+
+.icon-pause {
+    width: 14px;
+    height: 16px;
+    border-left: 5px solid rgba(200, 200, 200, 0.7); 
+    border-right: 5px solid rgba(200, 200, 200, 0.7);
+    box-sizing: border-box;
+}
+
+.icon-stop {
+    width: 16px;
+    height: 16px;
+    background-color: rgba(200, 150, 150, 0.7);
+    border-radius: 2px;
+}
+
+.control-btn:active {
+    transform: scale(0.95);
+}
+
+/* 버튼 style (start / pause / stop) ---/ */
+
+
+/* 버튼 style reset*/
+.floating-btn {
+    position: fixed;
+    bottom: 130px;
+    /* left: 4px; */
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); 
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 100; 
+}
+
+.floating-btn:hover {
+    transform: scale(1.1);
+    background-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.floating-btn:active {
+    transform: scale(0.9);
+}
+
+.icon-reset {
+    width: 18px;
+    height: 18px;
+    border: 3px solid rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    border-top-color: transparent;
+    position: relative;
+    transition: transform 0.5s ease;
+}
+
+.icon-reset::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    right: -4px;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 7px solid rgba(255, 255, 255, 0.4);
+    transform: rotate(-40deg);
+}
+
+.floating-btn:hover .icon-reset {
+    transform: rotate(360deg);
+    border-color: #666;
+    border-top-color: transparent;
+}
+.floating-btn:hover .icon-reset::before {
+    border-left-color: #666;
+}
+
+/* 버튼 reset ----/ */
+
+.app {
+    display: flex;
+    width: 100%;
+    height: 100%;
+
+    transform: scale(1);
+}
+
+/* side panel */
+
+.side-panel {
+    opacity: 0;
+    transform: translateX(20px);
+    transition: 0.3s;
+
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-left: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.02);
+    gap: 20px;
+}
+
+#taskInput {
+    padding: 8px 10px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: aliceblue;
+    transition: all 0.2s;
+    box-shadow: inset 0px -4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.input-section {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* add task btn */
+
+#addTaskBtn {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background-color: rgba(78, 205, 196, 0.5);
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+#addTaskBtn:hover {
+    background-color: rgba(78, 205, 196, 0.6);
+    transform: translateY(-1px);
+    box-shadow: 0 0px 12px rgba(78, 205, 196, 0.3);
+}
+
+/* icon*/
+.icon-plus {
+    position: relative;
+    width: 16px;
+    height: 16px;
+}
+
+/* - */
+.icon-plus::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-50%);
+    border-radius: 2px;
+}
+
+/* | */
+.icon-plus::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+/* add task btn ----/ */
+
+/* task List */
+
+#taskList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 200px;
+    overflow-y: auto; /* 내용 많아지면 스크롤 */
+}
+
+#taskList li {
+    padding: 4px;
+    padding-left: 12px;
+    margin: 8px;
+    /* margin-bottom: 8px; */
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: left;
+    /* border: 1px solid #f0f0f0; */
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+
+}
+
+#taskList li:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    /* border-color: #4ECDC4; */
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* task List ---/ */
+
+/* history section */
+
+.history-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.history-section h3 {
+    font-size: 15px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+#history-list {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.history-item {
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-left: 3px solid rgba(255, 255, 255, 0.5);
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+}
+/* history section -------/ */
+
+/* side-panel ------/ */
+
+
+body.mini {
+    /* font-size: 12px; */
+}
+body.mini .history-section {
+    display: none;
+}
+body.mini #current-task {
+    display: none;
+}
+body.mini #resetBtn {
+    display: none;
+}
+body.mini canvas {
+    transform: scale(0.6) translateY(-130px);
+
+}
+
+body.timer {
+    /* font-size: 20px; */
+}
+
+body.full {
+    /* font-size: 16px; */
+}
+
+@media (min-width: 700px) {
+    .timer-area {
+        width: 400px;
+        flex-shrink: 0;
+    }
+
+    .side-panel {
+        display: block;
+        opacity: 1;
+        transform: translateX(0);
+        width: 300px;
+        background: rgba(0, 0, 0, 0.2);
+    }
+}
+
+
+/* gif popup */
+
+.meme-popup {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+
+    width: 120px;
+    height: 120px;
+
+    z-index: 9999;
+    pointer-events: none;
+
+    animation: popUp 0.6s ease, fadeOut 0.6s ease 2s forwards;
+}
+
+@keyframes popUp {
+    0% { transform: scale(0.5) translateY(50px); opacity: 0; }
+    100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+@keyframes fadeOut {
+    to { opacity: 0; transform: translateY(20px); }
+}
+
+/* gif popup ----/ */

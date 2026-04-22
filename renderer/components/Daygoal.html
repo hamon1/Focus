@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="../styles/daygoal.css">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="../styles/daygoal.css">
+    </head>
+    <body>
+        <div class="drag-bar">
+            <span class="drag-icon"></span>
+        </div>
+
+        <div class="app">
+            <div class="timer-area">
+                <div id="start-screen">
+                    <button class="mode-btn mini" onclick="setMode('MINI')" title="Mini Mode">
+                        <span class="icon"></span>
+                    </button>
+                    <button class="mode-btn timer" onclick="setMode('TIMER')" title="Timer Mode">
+                        <span class="icon"></span>
+                    </button>
+                    <button class="mode-btn full" onclick="setMode('FULL')" title="Full Mode">
+                        <span class="icon"></span>
+                    </button>
+                </div>
+                <div id="current-task"></div>
+                
+                <canvas id="clock" width="300" height="300"></canvas>
+                
+                <div id="controls">
+                    <button id="startBtn" class="control-btn" title="Start">
+                        <span class="icon-play"></span>
+                    </button>
+                    <button id="pauseBtn" class="control-btn" title="Pause">
+                        <span class="icon-pause"></span>
+                    </button>
+                    <button id="stopBtn" class="control-btn" title="Finish">
+                        <span class="icon-stop"></span>
+                    </button>
+                </div>
+                <button id="resetBtn" class="floating-btn" title="Reset Timer">
+                    <span class="icon-reset"></span>
+                </button>
+            </div>
+            <div class="side-panel">
+                <div class="goal-section">
+                    <div class="input-section">
+                        <input id="taskInput" placeholder="목표 추가" />
+                        <button id="addTaskBtn" title="목표 추가">
+                            <span class="icon-plus"></span>
+                        </button>
+                    </div>
+    
+                    <ul id="taskList"></ul>
+                </div>
+                <div class="history-section">
+                    <h3>완료 기록</h3>
+                    <div id="history-list"></div>
+                </div>
+            </div>
+        </div>
+
+        <script type="module" src="app.js"></script>
+    </body>
+</html>
