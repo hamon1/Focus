@@ -268,3 +268,9 @@ window.setMode = setMode;
 
 
 
+const slider = document.getElementById('opacitySlider');
+
+slider.addEventListener('input', (e) => {
+    const value = e.target.value;
+    document.documentElement.style.setProperty('--app-opacity', value);
+});
