@@ -1,6 +1,6 @@
 {
   "name": "focat",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "뽀모도 타이머",
   "main": "main.js",
   "scripts": {
